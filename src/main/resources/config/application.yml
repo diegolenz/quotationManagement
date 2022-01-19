@@ -1,0 +1,28 @@
+# SETTINGS
+app:
+  external-url: http://localhost:8081
+server:
+  port: 8081
+
+#GENERAL
+spring:
+  application.name: bootdb
+
+#DATA SOURCE
+  datasource:
+    hikari.pool-name: bootdb
+    hikari.maximum-pool-size: 3
+    source: oracle.jdbc.driver.OracleDriver
+    url: jdbc:mysql://localhost:3306/bootdb
+    username: root
+    password: root
+
+#JPA
+  jpa:
+    #hibernate.ddl-auto: create
+    hibernate.ddl-auto: validate
+    show-sql: true
+    open-in-view: true
+
+
+

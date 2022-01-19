@@ -1,0 +1,10 @@
+
+\.idea/
+
+*.iml
+\target/
+*.class
+
+target/*
+
+frontend\.rar
