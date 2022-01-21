@@ -4,9 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
+import quotationManagement.domain.dto.StockDto;
 import quotationManagement.domain.dto.StockRequest;
 import quotationManagement.domain.entity.Stock;
 import quotationManagement.domain.repository.StockRepository;
+import quotationManagement.domain.useCases.SaveStockQuoteUseCase;
 import quotationManagement.domain.useCases.SaveStockUseCase;
 
 import java.util.List;
@@ -18,6 +20,9 @@ public class quotationController {
 
     @Autowired
     private StockRepository stockRepository;
+
+    @Autowired
+    private SaveStockQuoteUseCase saveStockQuoteUseCase;
 
     @Autowired
     private SaveStockUseCase saveStockUseCase;
@@ -41,9 +46,25 @@ public class quotationController {
 
     @PostMapping
     private ResponseEntity<Stock> save(@RequestBody StockRequest stock) {
-        Stock stockResult = saveStockUseCase.handle(stock);
+        Stock stockResult = saveStockQuoteUseCase.handle(stock);
         return ResponseEntity
                 .ok(stockResult);
+    }
+
+    /**
+     * 'Any outside user can register stocks on stock-manager.'
+     * Fiquei confuso com a parte de registrar a cotação no ambiente 8080
+     * Então para conseguir testar a chamada parar deletar o cache quando uma nova cotação fosse registrada
+     * achei util criar uma controller para manipulala
+     *
+     * @param stock
+     * @return
+     */
+    @PostMapping("/register-stock")
+    private ResponseEntity<Stock> save(@RequestBody StockDto stock) {
+        saveStockUseCase.handle(stock);
+        return ResponseEntity
+                .ok().build();
     }
 
 }
